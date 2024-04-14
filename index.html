@@ -9,10 +9,19 @@
   <!-- olhando no tailwind e pesquisando por grid que a gente descobriu que tem a classe grid -->
   <!-- também olhamos como colocar a altura 100dvh no tailwind, tivemos que usar uma artimanha, quando usamos o [] podemos colocar parecido como no css -->
   <body class="h-[100dvh] grid grid-cols-3 grid-rows-2">
-    <!-- row-span-2 significa que o aside vai ocupar duas linhas do grid -->
-    <aside class="bg-red-900 row-span-2">
+    <!-- row-span-2 significa que o aside vai ocupar duas linhas do grid. Vamos usar o display flex do tailwind no aside -->
+    <aside
+      class="bg-emerald-300 row-span-2 flex flex-col justify-between py-5 px-2"
+    >
       <!-- aqui temos que escolher as font-size do talwind, vamos usar um tamanho um pouco grande -->
-      <h1 class="text-2xl font-bold">Calculadora de Investimentos</h1>
+      <h1 class="text-2xl font-bold px-6 py-2">Calculadora de Investimentos</h1>
+      <form></form>
+      <!-- a princípio o tailwind resetou as tags, então por isso que se colocar somente button não vai ter o retângulo comum de botão -->
+
+      <div>
+        <button>Calcular</button>
+        <button>Limpar</button>
+      </div>
     </aside>
     <main>
       <p>Resultados</p>
