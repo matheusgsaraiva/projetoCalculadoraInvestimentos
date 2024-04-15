@@ -141,9 +141,18 @@
         </div>
       </form>
       <!-- a princípio o tailwind resetou as tags, então por isso que se colocar somente button não vai ter o retângulo comum de botão -->
-      <div>
-        <button>Calcular</button>
-        <button>Limpar</button>
+      <!-- no tailwind px-6 é um padding de 6 unidades que corresponde a 1,5rem -->
+      <!-- no tailwind my-8 é margem na vertical (y) de 8 unidades -->
+      <!-- o gap-2 vai criar um espaço entre os elementos dentro da tag div abaixo -->
+      <div class="flex h-12 px-6 my-8 w-full gap-2">
+        <button
+          class="w-1/2 rounded-lg bg-emerald-950 text-slate-200 hover:bg-emerald-800"
+        >
+          Calcular
+        </button>
+        <button class="w-1/2 rounded-lg text-slate-200 hover:bg-emerald-500">
+          Limpar
+        </button>
       </div>
     </aside>
     <main>
