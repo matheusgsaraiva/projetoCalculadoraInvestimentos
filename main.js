@@ -1,9 +1,11 @@
 // importar a função exportada do arquivo investimentGoals.js
 import { generateReturnsArray } from './src/investmentGoals';
 
-const calculateButton = document.getElementById('calculate-results');
+const form = document.getElementById('investment-form');
 
-function renderProgression() {
+// como a função ta associada a um evento podemos utilizá-la como parametro da própria função
+function renderProgression(evt) {
+  evt.preventDefault();
   //   vamos converter para número pois no formulário o valor vem em formato de texto
   // selecionar e apertar ctrl D para selecionar a próxima aparição do texto selecionado. MUITO ÚTIL
   const startingAmount = Number(
@@ -30,4 +32,4 @@ function renderProgression() {
   console.log(returnsArray);
 }
 
-calculateButton.addEventListener('click', renderProgression);
+form.addEventListener('submit', renderProgression);

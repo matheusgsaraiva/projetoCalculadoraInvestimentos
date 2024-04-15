@@ -15,7 +15,7 @@
     >
       <!-- aqui temos que escolher as font-size do talwind, vamos usar um tamanho um pouco grande -->
       <h1 class="text-2xl font-bold px-6 py-2">Calculadora de Investimentos</h1>
-      <form class="w-full">
+      <form id="investment-form" class="w-full">
         <div class="flex flex-col w-full px-6 my-2">
           <!-- aqui dividimos o espaço em 6. 1/6 para o R$, metade para o return-rate (3/6) e 1/3 (2/6) para o mensal -->
           <label class="font-bold text-gray-700" for="starting-amount"
@@ -29,10 +29,12 @@
               type="text"
               disabled
             />
+            <!-- tornar o input required para fazer com que seja obrigatório preencher esse input -->
             <input
               class="w-5/6 rounded-r-lg px-2"
               type="text"
               id="starting-amount"
+              required
               placeholder="0.00"
             />
           </div>
@@ -68,6 +70,7 @@
             <input
               class="w-2/3 rounded-l-lg px-2"
               type="text"
+              required
               id="time-amount"
               placeholder="0"
             />
@@ -103,6 +106,7 @@
               class="w-1/2 px-2"
               type="text"
               id="return-rate"
+              required
               placeholder="0"
             />
             <!-- vamos dar uma borda arredondada só para o lado direito -->
@@ -135,6 +139,7 @@
               class="w-5/6 rounded-r-lg px-2"
               type="text"
               id="tax-rate"
+              required
               placeholder="0"
             />
           </div>
@@ -145,8 +150,10 @@
       <!-- no tailwind my-8 é margem na vertical (y) de 8 unidades -->
       <!-- o gap-2 vai criar um espaço entre os elementos dentro da tag div abaixo -->
       <div class="flex h-12 px-6 my-8 w-full gap-2">
+        <!-- associando o botão a tag form pelo id -->
         <button
           id="calculate-results"
+          form="investment-form"
           class="w-1/2 rounded-lg bg-emerald-950 text-slate-200 hover:bg-emerald-800"
         >
           Calcular
