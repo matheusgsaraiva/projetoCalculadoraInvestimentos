@@ -49,10 +49,10 @@ function generateReturnsArray(
     // como os valores das variáveis compartilham o mesmo nome da propriedade não precisamos fazer propriedade: variável
     returnsArray.push({
       investedAmount, // propriedade investedAmount
-      interestReturns, // interestReturns
+      interestReturns, // propriedade interestReturns
       totalInterestReturns, // propriedade totalInterestReturns
       month: timeReference,
-      totalAmount,
+      totalAmount, // propriedade totalAmount
     });
   }
 
