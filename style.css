@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Estamos criando uma classe que quando o elemento possuí-la será aplicado essas formatações.
+Isso evita ter que escrever essas informações. Assim só precisamos escrever error
+*/
+@layer utilities {
+  .error {
+    @apply border-2;
+    @apply border-red-600;
+    @apply rounded-lg;
+  }
+}
