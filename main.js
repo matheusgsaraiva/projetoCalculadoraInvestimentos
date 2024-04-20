@@ -8,6 +8,11 @@ const form = document.getElementById('investment-form');
 function renderProgression(evt) {
   // evitar que execute o comportamento padrão que é de limpar os campos e enviar o formulário
   evt.preventDefault();
+  // vamos procurar se tem a classe error em algum dos campos do formulário
+  // se achar é um valor do tipo truthy e assim encerra-se a função. Se não achar é null e null é falsy. Então aí não faz nada
+  if (document.querySelector('.error')) {
+    return;
+  }
 
   //   vamos converter para número pois no formulário o valor vem em formato de texto
   // selecionar e apertar ctrl D para selecionar a próxima aparição do texto selecionado. MUITO ÚTIL
@@ -62,7 +67,12 @@ function validateInput(evt) {
   const inputValue = evt.target.value.replace(',', '.');
 
   // vamos colocar o texto em vermelho quando não for um número ou um número negativo
-  if (isNaN(inputValue) || Number(inputValue) <= 0) {
+  // !parentElement.classList.contains('error') vai verificar se o elemento parentElement contém a classe error
+  // em seguinda o ! faz a lógica inverso, para só deixar passar se for falso o contains
+  if (
+    isNaN(inputValue) ||
+    (Number(inputValue) <= 0 && !parentElement.classList.contains('error'))
+  ) {
     const errorTextElement = document.createElement('p'); // <p></p>
     // atribuindo a classe de cor vermelha do tailwind
     errorTextElement.classList.add('text-red-500'); // <p class="text-red-500"></p>
@@ -71,6 +81,16 @@ function validateInput(evt) {
 
     parentElement.classList.add('error');
     grandParentElement.appendChild(errorTextElement); // adicionando um filho ao elemento vô
+  } else if (
+    // removendo as mensagens de erro quando não tiver erro
+    parentElement.classList.contains('error') &&
+    !isNaN(inputValue) && // quand for um número, ou seja, quando não for um NaN (ex: texto)
+    Number(inputValue) > 0
+  ) {
+    // a gente remove a classe error que torna o contorno vermelho
+    parentElement.classList.remove('error');
+    // vamos selecionar a tag p que adicionamos quando tinha um erro no campo do formulário e vamos removê-la
+    grandParentElement.querySelector('p').remove();
   }
 }
 
