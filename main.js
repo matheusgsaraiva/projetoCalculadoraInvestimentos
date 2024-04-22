@@ -70,8 +70,8 @@ function validateInput(evt) {
   // !parentElement.classList.contains('error') vai verificar se o elemento parentElement contém a classe error
   // em seguinda o ! faz a lógica inverso, para só deixar passar se for falso o contains
   if (
-    isNaN(inputValue) ||
-    (Number(inputValue) <= 0 && !parentElement.classList.contains('error'))
+    (!parentElement.classList.contains('error') && isNaN(inputValue)) ||
+    Number(inputValue) <= 0
   ) {
     const errorTextElement = document.createElement('p'); // <p></p>
     // atribuindo a classe de cor vermelha do tailwind
