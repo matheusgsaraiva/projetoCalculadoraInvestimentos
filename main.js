@@ -70,7 +70,7 @@ function clearForm() {
 
 function validateInput(evt) {
   // vai printar onde o evento aconteceu
-  console.log(evt.target);
+  // console.log(evt.target);
 
   if (evt.target.value === '') {
     return;
