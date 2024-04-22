@@ -2,7 +2,8 @@
 import { generateReturnsArray } from './src/investmentGoals';
 
 const form = document.getElementById('investment-form');
-// const calculateButton = document.getElementById('calculate-results');
+const clearFormButton = document.getElementById('clear-form');
+const calculateButton = document.getElementById('calculate-results');
 
 // como a função ta associada a um evento podemos utilizá-la como parametro da própria função
 function renderProgression(evt) {
@@ -49,6 +50,24 @@ function renderProgression(evt) {
   console.log(returnsArray);
 }
 
+function clearForm() {
+  form['starting-amount'].value = '';
+  form['additional-contribution'].value = '';
+  form['time-amount'].value = '';
+  form['return-rate'].value = '';
+  form['tax-rate'].value = '';
+
+  // vamos pegar todos os campos do formulário com a classe erro
+  const errorInputContainers = document.querySelectorAll('.error');
+
+  for (const errorInputContainer of errorInputContainers) {
+    // vamos remover a mensagem de error pois vamos limpar o campo
+    errorInputContainer.classList.remove('error');
+    // vamos remover o paragrafo (elemento p) da mensagem de erro
+    errorInputContainer.parentElement.querySelector('p').remove();
+  }
+}
+
 function validateInput(evt) {
   // vai printar onde o evento aconteceu
   console.log(evt.target);
@@ -70,8 +89,8 @@ function validateInput(evt) {
   // !parentElement.classList.contains('error') vai verificar se o elemento parentElement contém a classe error
   // em seguinda o ! faz a lógica inverso, para só deixar passar se for falso o contains
   if (
-    (!parentElement.classList.contains('error') && isNaN(inputValue)) ||
-    Number(inputValue) <= 0
+    !parentElement.classList.contains('error') &&
+    (isNaN(inputValue) || Number(inputValue) <= 0)
   ) {
     const errorTextElement = document.createElement('p'); // <p></p>
     // atribuindo a classe de cor vermelha do tailwind
@@ -102,4 +121,5 @@ for (const formElement of form) {
 }
 
 // form.addEventListener('submit', renderProgression);
-form.addEventListener('click', renderProgression);
+calculateButton.addEventListener('click', renderProgression);
+clearFormButton.addEventListener('click', clearForm);
