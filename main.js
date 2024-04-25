@@ -220,6 +220,7 @@ for (const formElement of form) {
   }
 }
 
-form.addEventListener('submit', renderProgression);
+// comentar para fazer a parte da tabela
+// form.addEventListener('submit', renderProgression);
 // calculateButton.addEventListener('click', renderProgression);
 clearFormButton.addEventListener('click', clearForm);
