@@ -176,17 +176,18 @@
       </div>
     </aside>
     <!-- h-full significa ocupar toda a altura disponivel que o elemento pai disponibiliza -->
-    <main class="h-full">
+    <main class="row-span-2 col-span-2">
       <!-- <p>Resultados</p> -->
       <!-- Getting start da biblioteca Chart.js https://www.chartjs.org/docs/latest/getting-started/ -->
-      <section id="charts-container">
-        <div class="h-[36dvh]">
-          <p>Resultado Final</p>
+      <section id="charts-container" class="h-full">
+        <div class="h-[36%] flex flex-col items-center pb-10">
+          <!-- text-lg é para ficar com letra grande lg = large -->
+          <p class="font-bold text-lg">Resultado Final</p>
           <!-- canvas é um elemento que a biblioteca Charts utiliza -->
           <canvas id="final-money-distribution"></canvas>
         </div>
-        <div class="h-[56dvh]">
-          <p>Progressão</p>
+        <div class="h-[56%] flex flex-col items-center">
+          <p class="font-bold text-lg">Progressão</p>
           <canvas id="progression"></canvas>
         </div>
       </section>
