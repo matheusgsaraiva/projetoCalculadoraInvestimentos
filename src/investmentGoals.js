@@ -43,10 +43,14 @@ export function generateReturnsArray(
     const totalAmount =
       returnsArray[timeReference - 1].totalAmount * finalReturnRate +
       monthlyContribution;
+
     const interestReturns =
-      returnsArray[timeReference - 1].totalAmount * finalReturnRate;
+      returnsArray[timeReference - 1].totalAmount * (finalReturnRate - 1);
+
     const investedAmount = startingAmount + monthlyContribution * timeReference;
+
     const totalInterestReturns = totalAmount - investedAmount;
+
     // como os valores das variáveis compartilham o mesmo nome da propriedade não precisamos fazer propriedade: variável
     returnsArray.push({
       investedAmount, // propriedade investedAmount

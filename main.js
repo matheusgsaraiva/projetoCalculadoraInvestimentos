@@ -8,29 +8,39 @@ const progressionChart = document.getElementById('progression');
 const form = document.getElementById('investment-form');
 const clearFormButton = document.getElementById('clear-form');
 const calculateButton = document.getElementById('calculate-results');
+// vamos declarar as variáveis dos gráficos com um objeto vazio para inicializar
+let doughnutChartReference = {};
+let progressionChartReference = {};
+
+function formatCurrency(value) {
+  return value.toFixed(2);
+}
 
 // como a função ta associada a um evento podemos utilizá-la como parametro da própria função
 function renderProgression(evt) {
   // evitar que execute o comportamento padrão que é de limpar os campos e enviar o formulário
   evt.preventDefault();
+
   // vamos procurar se tem a classe error em algum dos campos do formulário
   // se achar é um valor do tipo truthy e assim encerra-se a função. Se não achar é null e null é falsy. Então aí não faz nada
   if (document.querySelector('.error')) {
     return;
   }
 
+  resetCharts();
+
   //   vamos converter para número pois no formulário o valor vem em formato de texto
   // selecionar e apertar ctrl D para selecionar a próxima aparição do texto selecionado. MUITO ÚTIL
 
   // const startingAmount = Number(
-  //   document.getElementById('starting-amount').value
+  //   document.getElementById('starting-amount').value.replace(',', '.')
   // );
   // outra forma de selecionar os campos do formulario
   const startingAmount = Number(
     form['starting-amount'].value.replace(',', '.')
   );
   const additionalContribution = Number(
-    document.getElementById('additional-contribution').value
+    document.getElementById('additional-contribution').value.replace(',', '.')
   );
   const timeAmount = Number(document.getElementById('time-amount').value);
   const timeAmountPeriod = document.getElementById('time-amount-period').value;
@@ -51,16 +61,26 @@ function renderProgression(evt) {
     returnRatePeriod
   );
 
-  console.log(returnsArray);
+  const finalInvestmentObject = returnsArray[returnsArray.length - 1];
 
-  new Chart(finalMoneyChart, {
+  console.log(returnsArray[returnsArray.length - 1]);
+  console.log(finalInvestmentObject.totalInterestReturns);
+
+  doughnutChartReference = new Chart(finalMoneyChart, {
     type: 'doughnut',
     data: {
-      labels: ['Red', 'Blue', 'Yellow'],
+      labels: ['Total investido', 'Rendimento', 'Imposto'],
       datasets: [
         {
-          label: 'My First Dataset',
-          data: [300, 50, 100],
+          data: [
+            formatCurrency(finalInvestmentObject.investedAmount),
+            formatCurrency(
+              finalInvestmentObject.totalInterestReturns * (1 - taxRate / 100)
+            ),
+            formatCurrency(
+              finalInvestmentObject.totalInterestReturns * (taxRate / 100)
+            ),
+          ],
           backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',
@@ -71,6 +91,61 @@ function renderProgression(evt) {
       ],
     },
   });
+
+  progressionChartReference = new Chart(progressionChart, {
+    type: 'bar',
+    data: {
+      labels: returnsArray.map((investmentObject) => investmentObject.month),
+      datasets: [
+        {
+          label: 'Total Investido',
+          data: returnsArray.map((investmentObject) =>
+            formatCurrency(investmentObject.investedAmount)
+          ),
+          backgroundColor: 'rgb(255, 99, 132)',
+        },
+        {
+          label: 'Retorno do Investimento',
+          data: returnsArray.map((investmentObject) =>
+            formatCurrency(investmentObject.interestReturns)
+          ),
+          backgroundColor: 'rgb(54, 162, 235)',
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Chart.js Bar Chart - Stacked',
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+        },
+      },
+    },
+  });
+}
+
+function isObjectEmpy(obj) {
+  // vai retornar a lista de todas as chaves e em serguida verificar se está vazia
+  return Object.keys(obj).length === 0;
+}
+
+function resetCharts() {
+  if (
+    !isObjectEmpy(doughnutChartReference) &&
+    !isObjectEmpy(progressionChartReference)
+  ) {
+    doughnutChartReference.destroy();
+    progressionChartReference.destroy();
+  }
 }
 
 function clearForm() {
@@ -79,6 +154,8 @@ function clearForm() {
   form['time-amount'].value = '';
   form['return-rate'].value = '';
   form['tax-rate'].value = '';
+
+  resetCharts();
 
   // vamos pegar todos os campos do formulário com a classe erro
   const errorInputContainers = document.querySelectorAll('.error');
@@ -143,6 +220,6 @@ for (const formElement of form) {
   }
 }
 
-// form.addEventListener('submit', renderProgression);
-calculateButton.addEventListener('click', renderProgression);
+form.addEventListener('submit', renderProgression);
+// calculateButton.addEventListener('click', renderProgression);
 clearFormButton.addEventListener('click', clearForm);
