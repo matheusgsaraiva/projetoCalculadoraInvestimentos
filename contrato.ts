@@ -6,8 +6,11 @@
 //3.2 - Um array com objetos que caracterizam as colunas
 //3.3 - Não é necessário, mas pode-se passar uma função de formatação dos dados daquela coluna
 
+// linguagem typescript
 type columnObject = {
   columnLabel: string;
   accessor: string;
   formatFN?: (info: number | string) => string;
 };
+
+type columnsArray = columnObject[];
