@@ -18,10 +18,28 @@ const createTable = (columnsArray, dataArray, tableID) => {
   if (!tableElement || tableElement.nodeName !== 'TABLE') {
     throw new Error('Id informado não corresponde a nenhum elemento table!');
   }
-  createTableHeader();
+  createTableHeader(tableElement, columnsArray);
   createTableBody();
 };
 
-function createTableHeader() {}
+function createTableHeader(tableReference, columnsArray) {
+  // função para criar elemento thead
+  function createTheadElement(tableReference) {
+    const thead = document.createElement('thead');
+    tableHeaderReference.appendChild(thead); // criar <thead></thead> dentro de <table></table>
+  }
+  // ?? se nulo testa a operação a direita que é criar o elemento thead
+  const tableHeaderReference =
+    tableReference.querySelector('thead') ?? createTheadElement(tableReference);
+
+  const headerRow = document.createElement('tr');
+  for (const tableColumnObject of columnsArray) {
+    // criando o elemento da tabela com a classe ja definida
+    // extensão es6 string to html. Ao escrever /*html*/ ele formata o resto da linha em html
+    const headerElement = /*html*/ `<th class="text-center">${tableColumnObject.columnLabel}</th>`;
+    headerRow.innerHTML += headerElement;
+  }
+  tableHeaderReference.appendChild(headerRow);
+}
 
 function createTableBody() {}
