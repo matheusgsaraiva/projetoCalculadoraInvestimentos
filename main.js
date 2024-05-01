@@ -2,6 +2,7 @@
 import { generateReturnsArray } from './src/investmentGoals';
 // importando a biblioteca Charts conforme a documentação descreve
 import { Chart } from 'chart.js/auto';
+import { createTable } from './src/table';
 
 const finalMoneyChart = document.getElementById('final-money-distribution');
 const progressionChart = document.getElementById('progression');
@@ -13,15 +14,33 @@ let doughnutChartReference = {};
 let progressionChartReference = {};
 
 const columnsArray = [
-  { columnLabel: 'Total investido', accessor: 'investedAmount' },
-  { columnLabel: 'Rendimento mensal', accessor: 'interestReturns' },
-  { columnLabel: 'Rendimento total', accessor: 'totalInterestReturns' },
   { columnLabel: 'Mês', accessor: 'month' },
-  { columnLabel: 'Quantia Total', accessor: 'totalAmount' },
+  {
+    columnLabel: 'Total Investido',
+    accessor: 'investedAmount',
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: 'Rendimento Mensal',
+    accessor: 'interestReturns',
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: 'Rendimento Total',
+    accessor: 'totalInterestReturns',
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: 'Quantia Total',
+    accessor: 'totalAmount',
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
 ];
 
 function formatCurrency(value) {
-  return value.toFixed(2);
+  // return value.toFixed(2);
+  // essa função vai formatar o valor numérico para uma string no formato de dinheiro do Brasil
+  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
 // como a função ta associada a um evento podemos utilizá-la como parametro da própria função
@@ -139,6 +158,8 @@ function renderProgression(evt) {
   //     },
   //   },
   // });
+
+  createTable(columnsArray, returnsArray, 'results-table');
 }
 
 function isObjectEmpy(obj) {

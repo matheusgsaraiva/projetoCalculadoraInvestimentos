@@ -1,5 +1,3 @@
-const { data } = require('autoprefixer');
-
 const isNonEmptyArray = (arrayElement) => {
   // vai retornar Falso ou Verdadeiro
   return Array.isArray(arrayElement) && arrayElement.length > 0;
@@ -9,7 +7,7 @@ const createTable = (columnsArray, dataArray, tableID) => {
   if (
     !isNonEmptyArray(columnsArray) ||
     !isNonEmptyArray(dataArray) ||
-    !tabledId
+    !tableID
   ) {
     throw new Error(
       'Para a correta execução, precisamos de um array com as colunas, outro com as informações das linhas e também o id da tabela selecionada!'
@@ -21,20 +19,22 @@ const createTable = (columnsArray, dataArray, tableID) => {
     throw new Error('Id informado não corresponde a nenhum elemento table!');
   }
   createTableHeader(tableElement, columnsArray);
-  createTableBody(tableReference, data, columnsArray);
+  createTableBody(tableElement, dataArray, columnsArray);
 };
 
 function createTableHeader(tableReference, columnsArray) {
   // função para criar elemento thead
   function createTheadElement(tableReference) {
     const thead = document.createElement('thead');
-    tableHeaderReference.appendChild(thead); // criar <thead></thead> dentro de <table></table>
+    tableReference.appendChild(thead); // criar <thead></thead> dentro de <table></table>
+    return thead;
   }
   // ?? se nulo testa a operação a direita que é criar o elemento thead
   const tableHeaderReference =
     tableReference.querySelector('thead') ?? createTheadElement(tableReference);
 
   const headerRow = document.createElement('tr');
+
   for (const tableColumnObject of columnsArray) {
     // criando o elemento da tabela com a classe ja definida
     // extensão es6 string to html. Ao escrever /*html*/ ele formata o resto da linha em html
@@ -47,7 +47,8 @@ function createTableHeader(tableReference, columnsArray) {
 function createTableBody(tableReference, tableItems, columnsArray) {
   function createTbodyElement(tableReference) {
     const tbody = document.createElement('tbody');
-    tableBodyReference.appendChild(tbody); // criar <tbody></tbody> dentro de <table></table>
+    tableReference.appendChild(tbody); // criar <tbody></tbody> dentro de <table></table>
+    return tbody;
   }
   // ?? se nulo testa a operação a direita que é criar o elemento tbody
   const tableBodyReference =
@@ -59,11 +60,16 @@ function createTableBody(tableReference, tableItems, columnsArray) {
     const tableRow = document.createElement('tr');
 
     for (const tableColumn of columnsArray) {
-      tableRow.innerHTML += /*html*/ `<td class="text-center">${
+      // se existir a propriedade format na propriedade aplica ela, senão faz uma função que não faz nada
+      const formatFn = tableColumn.format ?? ((info) => info);
+      tableRow.innerHTML += /*html*/ `<td class="text-center">${formatFn(
         tableItem[tableColumn.accessor]
-      }</td>`;
+      )}</td>`;
     }
 
     tableBodyReference.appendChild(tableRow);
   }
 }
+
+// Export the createTable function
+export { createTable };
