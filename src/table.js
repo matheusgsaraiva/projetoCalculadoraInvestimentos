@@ -35,6 +35,12 @@ function createTableHeader(tableReference, columnsArray) {
 
   const headerRow = document.createElement('tr');
 
+  // colocando propriedades no cabeçalho da tabela
+  // sticky et top-0 vão deixar o cabeçalho fixado no topo
+  ['bg-blue-900', 'text-slate-200', 'sticky', 'top-0'].forEach((cssClass) =>
+    headerRow.classList.add(cssClass)
+  );
+
   for (const tableColumnObject of columnsArray) {
     // criando o elemento da tabela com a classe ja definida
     // extensão es6 string to html. Ao escrever /*html*/ ele formata o resto da linha em html
@@ -59,6 +65,10 @@ function createTableBody(tableReference, tableItems, columnsArray) {
   for (const [itemIndex, tableItem] of tableItems.entries()) {
     const tableRow = document.createElement('tr');
 
+    // se o número for ímpar a gente coloca uma cor diferente
+    if (itemIndex % 2 !== 0) {
+      tableRow.classList.add('bg-blue-200'); // cor azul claro
+    }
     for (const tableColumn of columnsArray) {
       // se existir a propriedade format na propriedade aplica ela, senão faz uma função que não faz nada
       const formatFn = tableColumn.format ?? ((info) => info);
